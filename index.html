@@ -3,7 +3,70 @@
 	<head>
 		<meta charset="utf-8"/>
 		<script src="./js/jquery.min.js"></script>
+		<style>
+			li{
+				list-style:none;	
+			}
+		</style>
+		<script>
+			$(function(){
+				function Produto(id,nome,quant, valorUnitario){
+					return {"id": id,
+							"nome": nome,
+							"quant":quant,
+							"valorUnitario": valorUnitario};
+				}
+				var cardapio = [Produto(1, "Capuccino", 1,7)
+								,Produto(2, "Expresso", 1,4)
+								,Produto(3, "Frapuccino", 1,8)
+								,Produto(4, "Chocotino", 1,7)
+								,Produto(5, "Chocolate Quente", 1,10)
+								,Produto(6, "Frapê", 1,12)
+								,Produto(7, "Suco de Laranja", 1,10)];
+				
+				var produtosEscolhidosArray=[];
+				$.each(cardapio, function(ind,item){
+					$("#cardapio")
+						.append($("<li/>")
+							.attr("id",item.id)
+								.text(item.nome));	
+				});
+				function pesquisaPorId(vetor, objid){
+					var result;
+					$.each(vetor,function(index,obj){
+
+						if(obj.id == objid){
+							result = obj;
+						}
+					})
+					return result;
+				}
+				$("#cardapio").on("click","li",function (){
+					var produtoEscolhido = $(this).text();
+					produtosEscolhidosArray.push();
+					
+					itemEscolhido = pesquisaPorId(cardapio, $(this).attr("id"));
+					console.log(itemEscolhido);
+					
+						$("#pedidos")
+							.append(
+								$("<li/>")
+									.text(produtoEscolhido)
+						);
+						
+					});
+		
+
+				
+			});
+		</script>
 	</head>
 	<body>
+		<h1> Cafeteria CEFET </h1>
+		<ul id="cardapio">
+		</ul>
+		<h2> Pedidos </h2>
+		<ul id="pedidos">
+		</ul>
 	</body>
 </html>
