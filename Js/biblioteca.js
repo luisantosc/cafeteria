@@ -1,26 +1,4 @@
-<!doctype html>
-<html>
-	<head>
-		<meta charset="utf-8"/>
-		<link rel="stylesheet" href="./css/style.css"/>
-		<script src="./js/jquery.min.js"></script>
-		<style>
-			li{
-				list-style:none;	
-			}
-		</style>
-		<script>
-			$(function(){
-				var cardapio = [new produto("Chocolate",7.00,1,1)
-								,new produto("Café",3.00,2,1)
-								,new produto("Expresso",5.00,3,1)
-								,new produto("Frapuccino",9.50,4,1)
-								,new produto("Capuccino",6.00,5,1)
-
-				];
-				
-
-			   		function produto(nome,preco,id,quant){
+function produto(nome,preco,id,quant){
 					this.nome= nome;
 					this.preco = preco;
 					this.id = id;
@@ -55,6 +33,7 @@
 						contador = contador + (item.preco*item.quantidade);
 					});
 					return contador;
+
 				}
 				  function itemPedido(produto){
 					this.nome = produto.nome;
@@ -119,12 +98,12 @@
 									.addClass("lixeira")
 									)
 								)
-
+							$(".total").text("TOTAL:"+ total());
 							
 							}
 						
 					}
-					console.log(total());
+				
 				
 				function pesquisaPorId(vetor, objid){
 					var result;
@@ -139,61 +118,6 @@
 				function apagar(id){
 					$("#pedidos " +"#"+id).remove();
 					pedido.splice(pedido[id],1);
-					console.log(pedido);
+					$(".total").text("TOTAL:"+ total());
+					
 				}
-				$.each(cardapio,function(i,prod){
-					$("#cardapio").append($("<tr/>")
-							.append($("<td/>")
-								.text(prod.nome)
-								.attr("id",prod.id)
-								)
-							.append($("<td/>")
-								.text(prod.preco)
-								.attr("id",prod.id)
-								)
-							.append($("<button/>")
-								.addClass("adicionar")
-								.attr("id",prod.id)
-								.text("ADICIONAR")
-								)
-						)
-				})
-				$(".adicionar").click(function(){
-					var id = $(this).attr("id");
-					var obj = pesquisaPorId(cardapio,id);
-					adicionaItemPedido(obj);
-					
-					});
-				$("#pedidos").on("click","img",function(){
-					var id = $(this) .attr("id");
-					apagar(id);
-				});
-				$("#pedidos").append($("<h4/>")
-						.text("Total:"+total())
-
-					)
-
-					
-			});
-				
-		</script>
-	</head>
-	<body>
-		<h1> Cafeteria CEFET </h1>
-		<table id="cardapio">
-			<tr>
-				<th>NOME</th>
-				<th>PREÇO</th>
-			</tr>
-		</table>
-		<table id="pedidos">
-			<tr>
-				<th>NOME</th>
-				<th>QUANTIDADE</th>
-				<th>PREÇO UNITÁRIO</th>
-				<th>PREÇO</th>
-			</tr>
-		</table>
-
-	</body>
-</html>

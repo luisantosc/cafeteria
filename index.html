@@ -2,71 +2,103 @@
 <html>
 	<head>
 		<meta charset="utf-8"/>
+		<link rel="stylesheet" href="./css/style.css"/>
+		<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
 		<script src="./js/jquery.min.js"></script>
-		<style>
-			li{
-				list-style:none;	
-			}
-		</style>
+		<script src="./js/biblioteca.js"></script>
+		
 		<script>
 			$(function(){
-				function Produto(id,nome,quant, valorUnitario){
-					return {"id": id,
-							"nome": nome,
-							"quant":quant,
-							"valorUnitario": valorUnitario};
-				}
-				var cardapio = [Produto(1, "Capuccino", 1,7)
-								,Produto(2, "Expresso", 1,4)
-								,Produto(3, "Frapuccino", 1,8)
-								,Produto(4, "Chocotino", 1,7)
-								,Produto(5, "Chocolate Quente", 1,10)
-								,Produto(6, "Frapê", 1,12)
-								,Produto(7, "Suco de Laranja", 1,10)];
+				var cardapio = [new produto("Chocolate Clássico",7.00,1,1)
+								,new produto("Café Latte",5.00,2,1)
+								,new produto("Expresso brigadeiro",5.00,3,1)
+								,new produto("Donuts de Creme ou Chocolate",4.00,4,1)
+								,new produto("Brownie de Chocolate com Doce de Leite",5.00,5,1)
+								,new produto("Espresso tradicional, macchiato ou com chantilly",7.00,6,1)
+								,new produto("Roll de Canela",7.00,7,1)
+								,new produto("Prensa Francesa",5.00,8,1)
+								,new produto("Choco Chip Frapuccino",8.00,9,1)
+								,new produto("Soft Cookie Choco Chip",6.00,10,1)
+								,new produto("Expresso",5.00,11,1)
+								,new produto("Morango Frapuccino",7.00,12,1)
+								,new produto("Chá Verde Latte",4.00,13,1)
+
+				];
 				
-				var produtosEscolhidosArray=[];
-				$.each(cardapio, function(ind,item){
+				$.each(cardapio,function(i,prod){
 					$("#cardapio")
-						.append($("<li/>")
-							.attr("id",item.id)
-								.text(item.nome));	
-				});
-				function pesquisaPorId(vetor, objid){
-					var result;
-					$.each(vetor,function(index,obj){
-
-						if(obj.id == objid){
-							result = obj;
-						}
-					})
-					return result;
-				}
-				$("#cardapio").on("click","li",function (){
-					var produtoEscolhido = $(this).text();
-					produtosEscolhidosArray.push();
+						.append($("<tr/>")
+							.append($("<td/>")
+								.text(prod.nome)
+								.attr("id",prod.id)
+								)
+							.append($("<td/>")
+								.text("R$"+prod.preco+".00")
+								.attr("id",prod.id)
+								)
+							.append($("<button/>")
+								.addClass("adicionar")
+								.attr("id",prod.id)
+								.text("ADICIONAR")
+								)
+							.css("height","40px")
+						)
+						.css("width","600px")
 					
-					itemEscolhido = pesquisaPorId(cardapio, $(this).attr("id"));
-					console.log(itemEscolhido);
-					
-						$("#pedidos")
-							.append(
-								$("<li/>")
-									.text(produtoEscolhido)
-						);
-						
-					});
-		
-
+				})
+				$(".adicionar").click(function(){
+					var id = $(this).attr("id");
+					var obj = pesquisaPorId(cardapio,id);
+					adicionaItemPedido(obj);
 				
+					
+				});
+				$("#pedidos").on("click","img",function(){
+					var id = $(this) .attr("id");
+					apagar(id);
+				});
+				$("#pedidos").append($("<h4/>")
+						.text("Total:"+total())
+						.addClass("total")
+
+					)
+				$(".abrir").click(function(){
+					$("#cardapio").fadeIn();
+					$(".abreCardapio").css("display","none")
+					$("#pedidos").css("top","900px")
+				})
+				$(".carrinho").click(function(){
+					$("#pedidos").fadeIn();
+				})
+					
 			});
+				
 		</script>
 	</head>
 	<body>
-		<h1> Cafeteria CEFET </h1>
-		<ul id="cardapio">
-		</ul>
-		<h2> Pedidos </h2>
-		<ul id="pedidos">
-		</ul>
+		<header>
+			<h1 class="titulo"> Cafeteria CEFET </h1>
+			<img src="./img/carrinho.png" class="carrinho"/>
+		</header>
+		<div class="abreCardapio">
+			<p>Deseja abrir o cardápio?</p>
+			<button class="abrir">ABRIR</button>
+		</div>
+		
+		<table id="cardapio">
+			<tr>
+				<th>NOME</th>
+				<th>PREÇO</th>
+			</tr>
+		</table>
+		<table id="pedidos">
+			<tr class="cabecalho">
+				<th>NOME</th>
+				<th>QUANTIDADE</th>
+				<th>PREÇO UNITÁRIO</th>
+				<th>PREÇO</th>
+			</tr>
+		</table>
+
 	</body>
 </html>
